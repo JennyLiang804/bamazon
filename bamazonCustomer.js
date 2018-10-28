@@ -12,33 +12,89 @@ var connection = mysql.createConnection({
     database:"bamazon_DB"
 });
 
-connection.query("SELECT * FROM products", function(err, res) {
+connection.connect(function (err) {
     if (err) throw err;
-    console.log("\n");
-    for (var i = 0; i < res.length; i++){
-        console.log(` ID #: ${res[i].item_id} || Product: ${res[i].product_name} || Price: ${res[i].price}`);
-    }
-    console.log("\n");
-    inquirer
-        .prompt([
-            {
-                type: "input",
-                name: "productID",
-                message: "Please enter product ID for purchest"
-            },
-            {
-                type: "input",
-                name: "productAmount",
-                message: "Enter amount of product you would like to purchest"
-            }
-        ])
-        .then(function (answer) {
-            var id = answer.productID;
-            var amount = answer.productAmount;
-
-            if (isNaN(amount) || isNaN(id)) {
-                console.log("Not enough item in inventory, please enter a lower amount")
-            }
-        })
+    console.log("connected as id " + connection.threadId);
+    console.log("Welcome to Bamazon!");
+    start();
 });
 
+function start() {
+
+    connection.query("SELECT * FROM bamazon_db.products", function (err,results) {
+        if (err) throw err;
+        console.log("\n");
+        inquirer
+            .prompt([{ 
+                name: "list",
+                type: "list",
+                choices: function() {
+                    var productNames = [];
+                    for (var i = 0; i < results.length; i++) {
+                        productNames.push(results[i].product_name);
+                    }
+                    return productNames;
+                },
+                message: "Enter item ID for purchest"
+            },
+            {
+                name: "bid",
+                type: "input",
+                message: "Enter amount"
+            }
+        ])
+        .then(
+            function (answer) {
+                var chosenItem;
+                for (var i = 0; i < results.length; i++){
+                    if (results[i].product_name === answer.choices){
+                        chosenItem = results[i];
+                    }
+                }
+                var itemID = chosenItem.item_id
+                console.log("item id: " + itemID);
+                console.log(`${chosenItem.produce_name} quantity in stock
+                ========================
+                ${chosenItem.stock_quantity} at $${chosenItem.price} each 
+                ========================
+                You have selected to purchase ${answer.bit} ${answer.choice}`);
+
+                var selectionAmount = answer.bid;
+                var storeQuantity = chosenItem.stock_quantity
+                if (selectionAmount > storeQuantity) {
+                    console.log("Insufficient quantity!");
+                    console.log(`${chosenItem.produce_name} quantity in stock
+                    ===================
+                    ${chosenItem.stock_quantity}
+                    ====================
+                    You have selected to purchase ${answer.bid} ${answer.choice}`);
+                    start();
+                } else if (selectionAmount <= storeQuantity) {
+                    console.log("Order added!");
+
+                    var newStoreQueryStr = 'UPDATE products SET stock_quantity = ' + newStoreQuantity + `Where item_id = ` + itemID;
+                    connection.query(updaQueryStr, function(err, data) {
+                        if (err) throw(err);
+                        console.log(`Your order has been succefully placed! Your total is $` + chosenItem.price * answer.bid)
+                    })
+                    inquirer.prompt([{
+                        name:"choice",
+                        type: " rawlist",
+                        message: "Would you like to buy anything else?",
+                        choices: ["YES", "NO"]
+                    }
+                ]).then(function(answer){
+                    if (answer.choice === "YES") {
+                        start()
+                    }
+                    else {
+                        console.log("Thank you for shopping with us!");
+                        connection.end()
+                    }
+                })
+                }
+            }
+        )
+    });
+    
+}
