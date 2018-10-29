@@ -13,34 +13,34 @@ CREATE TABLE products(
 );
 
 INSERT INTO products (product_name, department_name, price, stock_quantity)
-VALUES ("1. Unicorn", "Animals", 777.77, 99);
+VALUES ("-Unicorn", "Animals", 777.77, 99);
 
 INSERT INTO products (product_name, department_name, price, stock_quantity)
-VALUES ("2. waffles", "Food", 3.25, 1000);
+VALUES ("-waffles", "Food", 3.25, 1000);
 
 INSERT INTO products (product_name, department_name, price, stock_quantity)
-VALUES ("3. Russian Mule", "Alcoholic Beverage", 12.00, 50);
+VALUES ("-Russian Mule", "Alcoholic Beverage", 12.00, 50);
 
 INSERT INTO products (product_name, department_name, price, stock_quantity)
-VALUES ("4. i8", "Car", 147500.00, 5);
+VALUES ("-i8", "Car", 147500.00, 5);
 
 INSERT INTO products (product_name, department_name, price, stock_quantity)
-VALUES ("5. Sono", "Electronic", 500.00, 75);
+VALUES ("-Sono", "Electronic", 500.00, 75);
 
 INSERT INTO products (product_name, department_name, price, stock_quantity)
-VALUES ("6. Joshual Tree", "Plants", 4540.79, 25);
+VALUES ("-Joshual Tree", "Plants", 4540.79, 25);
 
 INSERT INTO products (product_name, department_name, price, stock_quantity)
-VALUES ("7. Siberian Forest Cat", "Animals", 2000.00, 1);
+VALUES ("-Siberian Forest Cat", "Animals", 2000.00, 1);
 
 INSERT INTO products (product_name, department_name, price, stock_quantity)
-VALUES ("8. Branzino", "Food", 28.00, 50);
+VALUES ("-Branzino", "Food", 28.00, 50);
 
 INSERT INTO products (product_name, department_name, price, stock_quantity)
-VALUES ("9. Sapphire Martini", "Alcoholic Beverage", 18.99, 50);
+VALUES ("-Sapphire Martini", "Alcoholic Beverage", 18.99, 50);
 
 INSERT INTO products (product_name, department_name, price, stock_quantity)
-VALUES ("10. Monstera Plant", "Plants", 75.99, 75);
+VALUES ("-Monstera Plant", "Plants", 75.99, 75);
 
 
 

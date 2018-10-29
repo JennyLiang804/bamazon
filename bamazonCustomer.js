@@ -26,7 +26,7 @@ function start() {
         console.log("\n");
         inquirer
             .prompt([{ 
-                name: "list",
+                name: "choice",
                 type: "list",
                 choices: function() {
                     var productNames = [];
@@ -43,48 +43,51 @@ function start() {
                 message: "Enter amount"
             }
         ])
-        .then(
-            function (answer) {
+        .then(function (answer) {
                 var chosenItem;
                 for (var i = 0; i < results.length; i++){
-                    if (results[i].product_name === answer.choices){
+                    if (results[i].product_name === answer.choice){
                         chosenItem = results[i];
                     }
                 }
                 var itemID = chosenItem.item_id
                 console.log("item id: " + itemID);
-                console.log(`${chosenItem.produce_name} quantity in stock
+                console.log(`${chosenItem.product_name} quantity in stock!
                 ========================
-                ${chosenItem.stock_quantity} at $${chosenItem.price} each 
+                at $${chosenItem.price} each 
                 ========================
-                You have selected to purchase ${answer.bit} ${answer.choice}`);
+                You have selected to purchase ${answer.bid} ${answer.choice}`);
 
                 var selectionAmount = answer.bid;
                 var storeQuantity = chosenItem.stock_quantity
                 if (selectionAmount > storeQuantity) {
                     console.log("Insufficient quantity!");
-                    console.log(`${chosenItem.produce_name} quantity in stock
+                    console.log(`${chosenItem.product_name} quantity in stock
                     ===================
                     ${chosenItem.stock_quantity}
                     ====================
                     You have selected to purchase ${answer.bid} ${answer.choice}`);
                     start();
                 } else if (selectionAmount <= storeQuantity) {
-                    console.log("Order added!");
+                    console.log(`
+                =========================
+                    Order added!`);
 
-                    var newStoreQueryStr = 'UPDATE products SET stock_quantity = ' + newStoreQuantity + `Where item_id = ` + itemID;
-                    connection.query(updaQueryStr, function(err, data) {
+                    var newStoreQuantity = storeQuantity - selectionAmount;
+                    var updateQueryStr = 'UPDATE products SET stock_quantity = ' + newStoreQuantity + `WHERE item_id = ` + itemID;
+                    connection.query(updateQueryStr, function(err, data) {
                         if (err) throw(err);
                         console.log(`Your order has been succefully placed! Your total is $` + chosenItem.price * answer.bid)
                     })
                     inquirer.prompt([{
                         name:"choice",
-                        type: " rawlist",
+                        type: "rawlist",
                         message: "Would you like to buy anything else?",
                         choices: ["YES", "NO"]
                     }
-                ]).then(function(answer){
-                    if (answer.choice === "YES") {
+                ]
+                ).then(function(answer){
+                    if(answer.choice === "YES") {
                         start()
                     }
                     else {
