@@ -16,6 +16,9 @@ Once downloaded, run the command "npm install" to download the necessary items f
 Executing program
 The program is run through your command line terminal with the following: *node Bamazon.js From there, Bamazon will prompt you with questions on how next to proceed.
 
+Demo
+https://drive.google.com/file/d/1C8uDOEZwSsfBMfs0ABaU8h30rRP_Jso5/view
+
 Help
 If there are any problems or issues with this app, please contact the author.
 
