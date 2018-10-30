@@ -74,20 +74,24 @@ function start() {
                     Order added!`);
 
                     var newStoreQuantity = storeQuantity - selectionAmount;
-                    var updateQueryStr = 'UPDATE products SET stock_quantity = ' + newStoreQuantity + `WHERE item_id = ` + itemID;
+
+                    var updateQueryStr = 'UPDATE products SET stock_quantity = ' + newStoreQuantity + ` WHERE item_id = ` + itemID;
+                    console.log('UpdateQueryStr = ' + updateQueryStr);
                     connection.query(updateQueryStr, function(err, data) {
-                        if (err) throw(err);
-                        console.log(`Your order has been succefully placed! Your total is $` + chosenItem.price * answer.bid)
-                    })
-                    inquirer.prompt([{
-                        name:"choice",
-                        type: "rawlist",
-                        message: "Would you like to buy anything else?",
-                        choices: ["YES", "NO"]
+                    if (err) throw(err);
+                    //console.log(`Your order has been succefully placed! Your total is $` + chosenItem.price * answer.bid);
+                })
+                inquirer
+                    .prompt([{
+                    name:"choice",
+                    type: "rawlist",
+                    message: "Would you like to buy anything else?",
+                    choices: ["YES", "NO"]
                     }
-                ]
-                ).then(function(answer){
-                    if(answer.choice === "YES") {
+                ])
+                .then(function (answer) {
+                    console.log("answer: " + answer.choice);
+                    if (answer.choice === "YES") {
                         start()
                     }
                     else {
