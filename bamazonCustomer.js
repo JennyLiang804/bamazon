@@ -76,10 +76,10 @@ function start() {
                     var newStoreQuantity = storeQuantity - selectionAmount;
 
                     var updateQueryStr = 'UPDATE products SET stock_quantity = ' + newStoreQuantity + ` WHERE item_id = ` + itemID;
-                    console.log('UpdateQueryStr = ' + updateQueryStr);
+                    // console.log('UpdateQueryStr = ' + updateQueryStr);
                     connection.query(updateQueryStr, function(err, data) {
                     if (err) throw(err);
-                    //console.log(`Your order has been succefully placed! Your total is $` + chosenItem.price * answer.bid);
+                    console.log(`Your order has been succefully placed! Your total is $` + chosenItem.price * answer.bid);
                 })
                 inquirer
                     .prompt([{
